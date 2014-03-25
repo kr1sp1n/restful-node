@@ -2,6 +2,7 @@
   "name": "nodejs-api",
   "version": "0.0.1",
   "description": "Library for faster implementation or rest-manifest conform services",
+  "private": true,
   "main": "index.coffee",
   "scripts": {
     "test": "make test"
