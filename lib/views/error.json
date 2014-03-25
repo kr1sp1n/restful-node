@@ -1,0 +1,8 @@
+{
+  "success": false,
+  "code": <%= code %>,
+  "message": "<%= message %>"
+  <% if (param) { %>
+    , "param": "<%= param %>"
+  <% } %>
+}

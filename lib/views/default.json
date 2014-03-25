@@ -1,0 +1,5 @@
+{
+  "success": true,
+  "totalCount": <%= totalCount %>,
+  "items": <%- JSON.stringify(items) %>
+}

@@ -9,7 +9,6 @@ Library for faster implementation of rest-manifest conform services.
 ```bash
 git clone git@gitsrv.devel.intern:platform-dev/nodejs-api.git
 cd nodejs-api
-make install
 ```
 
 
