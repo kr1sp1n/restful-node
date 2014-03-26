@@ -1,5 +1,5 @@
 SHELL := /bin/bash
-NODE_PATH = $(shell ./find-node-or-install)
+NODE_PATH = $(shell ./scripts/find-node-or-install)
 PATH := $(NODE_PATH):$(shell echo $$PATH)
 
 MOCHA_BIN = node_modules/.bin/mocha
@@ -8,7 +8,9 @@ REPORTER = spec
 
 all: build
 
-build: modules
+build:
+
+install: modules
 
 modules:
 	npm install .
