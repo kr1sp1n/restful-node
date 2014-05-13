@@ -19,6 +19,7 @@ app.register = (sns, endpoint, service_id)->
 app.resource = (name, actions, params)->
   @resources ?= {} 
   res = @resources[name] = 
+    id: name
     name: name
     type: 'resource'
     actions: actions
@@ -106,7 +107,7 @@ api.all '/:resource*', (req, res, next)->
           id: name
           name: name
           description: params[name]
-          _type: 'parameter'
+          type: 'parameter'
 
       return result 
 
@@ -128,17 +129,21 @@ api.get '/', (req, res)->
   resources = []
   for name of api.resources
     resource = api.resources[name] 
-    resource.href = getEndpoint(req) + "/" + resource.name 
-    resources.push resource
+    item =
+      id: resource.id
+      name: resource.name
+      type: "resource"
+      href: getEndpoint(req) + "/" + resource.name 
+    resources.push item 
 
   res.render 'default',
-    totalCount: resources.length
+    total: resources.length
     items: resources
 
 getProperties = (req, res)->
   return (item, done)->
     res.locals.item = item
-    properties = api.resources[item['_type']]?.properties
+    properties = api.resources[item['type']]?.properties
     if properties
       f = {}
       for property of properties
@@ -148,8 +153,8 @@ getProperties = (req, res)->
         for key of result
           if result[key].length?
             result[key].forEach (x)->
-              x['_type'] = properties[key].type
-              x['_href'] = getItemHref(req, x['_type'], x.id) if x.id? 
+              x['type'] = properties[key].type
+              x['href'] = getItemHref(req, x['type'], x.id) if x.id? 
           item[key] = result[key]
         done()
     else
@@ -157,8 +162,8 @@ getProperties = (req, res)->
 
 extendItems = (req, res, next)->
   res.locals.items = res.locals.items.map (item)->
-    item['_type'] = req.params.resource
-    item['_href'] = getItemHref(req, item['_type'], item.id) if item.id?
+    item['type'] = req.params.resource
+    item['href'] = getItemHref(req, item['type'], item.id) if item.id?
     return item
   next()
 
@@ -166,9 +171,9 @@ refItems = (req, res, next)->
   async.each res.locals.items, getProperties(req, res), next 
 
 render = (req, res, next)->
-  unless res.locals.totalCount? then res.locals.totalCount = res.locals.items.length
+  unless res.locals.total? then res.locals.total = res.locals.items.length
   res.render 'default',
-    totalCount: res.locals.totalCount
+    total: res.locals.total
     items: res.locals.items
 
 
