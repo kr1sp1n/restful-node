@@ -1,5 +1,5 @@
 {
-  "name": "nodejs-api",
+  "name": "restful-node",
   "version": "0.0.2",
   "description": "Library for faster implementation of rest-manifest conform services",
   "private": true,
@@ -9,10 +9,11 @@
   },
   "repository": {
     "type": "git",
-    "url": "git@gitsrv.devel.intern:platform-dev/nodejs-api.git"
+    "url": "git@github.com:kr1sp1n/restful-node.git"
   },
   "keywords": [
-    "api"
+    "api",
+    "restful"
   ],
   "author": "Krispin Schulz",
   "license": "MIT",
