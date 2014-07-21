@@ -1,4 +1,4 @@
-nodejs-api
+restful-node
 =============
 
 Library for faster implementation of rest-manifest conform services.
@@ -7,8 +7,8 @@ Library for faster implementation of rest-manifest conform services.
 ## Install
 
 ```bash
-git clone git@gitsrv.devel.intern:platform-dev/nodejs-api.git
-cd nodejs-api
+git clone git@github.com:kr1sp1n/restful-node.git
+cd restful-node 
 make install
 ```
 
