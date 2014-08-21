@@ -1,6 +1,6 @@
 {
   "name": "restful-node",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Library for faster implementation of rest-manifest conform services",
   "private": true,
   "main": "index.coffee",

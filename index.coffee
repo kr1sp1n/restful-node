@@ -16,8 +16,13 @@ app.register = (sns, endpoint, service_id)->
   , (err, response, body)->
     console.error err if err?
 
-app.resource = (name, actions, params)->
-  @resources ?= {} 
+app.resource = (name, ctrl, params)->
+  @resources ?= {}
+  
+  actions = {}
+  for key, func of ctrl when typeof func is "function"
+    actions[key] = func.bind ctrl
+
   res = @resources[name] = 
     id: name
     name: name
@@ -74,6 +79,10 @@ api.use (err, req, res, next)->
 api.all '/:resource*', (req, res, next)->
   id = req.path.split('/')[2]? and req.path.split('/')[2] != ''
 
+  unless api.resources[req.params.resource]?
+    res.status(404)
+    return next new Error('Resource Not Found')
+
   method = do =>
     return 'index' if req.method == 'GET' and not id 
     return 'show' if req.method == 'GET' and id 
@@ -81,7 +90,7 @@ api.all '/:resource*', (req, res, next)->
     return 'update' if req.method == 'PUT' and id
     return 'delete' if req.method == 'DELETE' and id
     return 'options' if req.method == 'OPTIONS'
-   
+
   actions = api.resources[req.params.resource].actions
 
   allow_methods= do->
@@ -113,9 +122,7 @@ api.all '/:resource*', (req, res, next)->
 
     return render(req, res, next) 
 
-  unless api.resources[req.params.resource]?
-    res.status(404)
-    return next new Error('Resource Not Found')
+
 
   unless actions[method]?
     res.status(501)
